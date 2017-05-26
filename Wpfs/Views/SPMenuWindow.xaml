@@ -1,0 +1,28 @@
+﻿<Window x:Class="Wpfs.Views.SPMenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpfs.Views"
+        xmlns:Controls="clr-namespace:Wpfs.Views"
+        mc:Ignorable="d"
+        Title="SPMenuWindow" Height="400" Width="400">
+    <StackPanel Margin="0,0,0.6,-4.4" Background="WhiteSmoke">
+        <TextBox x:Name="title" Height="58" TextWrapping="Wrap" Text="&#xD;&#xA;Single Play Menu" HorizontalContentAlignment="Center"
+                 FontSize="20" FontWeight="Heavy" Margin="0,0,-0.2,0" Background="WhiteSmoke" BorderThickness="0"/>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Maze Name:" Margin="3" FontSize="20" />
+            <TextBox Text="{Binding MazeName, Mode=TwoWay}" FontSize="18" Margin="3" VerticalAlignment="Center" Height="30" Width="100"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Maze Rows:" Margin="5" FontSize="20" />
+            <TextBox Text="{Binding MazeRows, Mode=TwoWay}" FontSize="18" Margin="5" VerticalAlignment="Center" Height="30" Width="100"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Maze Cols:" Margin="8" VerticalContentAlignment="Center" FontSize="20" />
+            <TextBox Text="{Binding MazeCols, Mode=TwoWay}" FontSize="18"  Margin="8" VerticalContentAlignment="Center" Height="30" Width="100"></TextBox>
+        </StackPanel>
+        <Button x:Name="btnOK" HorizontalAlignment="Center"  Margin="100,84.8,-127.2,-72.4" Width="112" FontWeight="Bold" 
+                    FontSize="16" Content="Start Game" BorderThickness="1" Height="38" Click="btnOK_Click" Grid.Row="3" />
+    </StackPanel>
+</Window>
