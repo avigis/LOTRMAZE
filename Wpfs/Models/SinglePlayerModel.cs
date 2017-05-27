@@ -112,7 +112,7 @@ namespace Wpfs.Models
             get { return this.initialPos; }
             set
             {
-                initialPos = value;/////////////
+                initialPos = value;
                 NotifyPropertyChanged("InitialPos");
             }
         }
@@ -166,6 +166,11 @@ namespace Wpfs.Models
                 i++;
             }
             return sol;
+        }
+
+        public bool ReachedDestination()
+        {
+            return curPos.Equals(goalPos);
         }
 
         public void SaveSettings()

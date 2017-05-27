@@ -70,6 +70,11 @@ namespace Wpfs.Views
             }
 
             myCanvasSingle.Draw(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos, vm.VM_GoalPos);
+            if (this.vm.Model.ReachedDestination())
+            {
+                MessageBoxResult result = MessageBox.Show("You Won!", "Reached destination");
+            }
+
         }
 
         private void MainBtn_Click(object sender, RoutedEventArgs e)

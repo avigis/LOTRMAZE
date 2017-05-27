@@ -21,7 +21,7 @@
         </Grid.ColumnDefinitions>
         <Image Source="pack://application:,,,/logo.png" RenderTransformOrigin="1.767,0.52" Margin="330,5,-356.2,75.6" Grid.RowSpan="2"/>
         <Button Margin="336,10.2,-330.2,9.6" Content="Single player" Padding="4" Grid.Row="1" FontSize="24" Click="Click_SP"/>
-        <Button Margin="336,10.4,-330.2,10.4" Content="Multi player" Padding="4" Grid.Row="2" FontSize="24"/>
+        <Button Margin="336,10.4,-330.2,10.4" Content="Multi player" Padding="4" Grid.Row="2" FontSize="24" Click="Click_MP"/>
         <Button Margin="336,9.6,-330.2,10.2" Content="Settings" Padding="4" Click="Click_Settings" Grid.Row="3" FontSize="24"/>
 
     </Grid>

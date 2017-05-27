@@ -162,5 +162,94 @@ namespace Wpfs.Views
             myCanvas.Children.Add(recGoal);
 
         }
+
+
+        public void DrawMulti(string recsStr, int rows, int cols, Position curPos1, Position goalPos, int figure)
+        {
+            int recindex = 0;
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    Rectangle rec = new Rectangle()
+                    {
+                        Height = (this.ActualHeight / rows),
+                        Width = (this.ActualWidth / cols),
+                        Fill = Brushes.White,
+                        //Stroke = Brushes.Black,
+                        //StrokeThickness = 2
+                    };
+
+                    while (recsStr[recindex] != '1' && recsStr[recindex] != '0'
+                        && recsStr[recindex] != '#' && recsStr[recindex] != '*')
+                    {
+                        recindex++;
+                    }
+
+                    if (recsStr[recindex] == '1')
+                        rec.Fill = Brushes.Black;
+                    else if (recsStr[recindex] == '0')
+                        rec.Fill = Brushes.White;
+                    //else if (recsStr[recindex] == '*')
+                    //    rec.Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\homer.jpg", UriKind.Relative)));
+                    //else if (recsStr[recindex] == '#')
+                    //    rec.Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\donut.jpg", UriKind.Relative)));
+
+                    Canvas.SetTop(rec, i * rec.Height);
+                    Canvas.SetLeft(rec, j * rec.Width);
+                    myCanvas.Children.Add(rec);
+                    recindex++;
+                }
+            }
+
+            if (figure == 1)
+            {
+
+                Rectangle recCurPos1 = new Rectangle()
+                {
+                    Height = (this.ActualHeight / rows),
+                    Width = (this.ActualWidth / cols),
+                    Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\homer.jpg", UriKind.Relative))),
+                    //Stroke = Brushes.Black,
+                    //StrokeThickness = 2
+                };
+
+                Canvas.SetTop(recCurPos1, curPos1.Row * recCurPos1.Height);
+                Canvas.SetLeft(recCurPos1, curPos1.Col * recCurPos1.Width);
+                myCanvas.Children.Add(recCurPos1);
+            }
+            else if (figure == 2)
+            {
+
+
+                Rectangle recCurPos2 = new Rectangle()
+                {
+                    Height = (this.ActualHeight / rows),
+                    Width = (this.ActualWidth / cols),
+                    Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\bart.png", UriKind.Relative))),
+                    //Stroke = Brushes.Black,
+                    //StrokeThickness = 2
+                };
+
+                Canvas.SetTop(recCurPos2, curPos1.Row * recCurPos2.Height);
+                Canvas.SetLeft(recCurPos2, curPos1.Col * recCurPos2.Width);
+                myCanvas.Children.Add(recCurPos2);
+            }
+
+
+            Rectangle recGoal = new Rectangle()
+            {
+                Height = (this.ActualHeight / rows),
+                Width = (this.ActualWidth / cols),
+                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\donut.jpg", UriKind.Relative))),
+                //Stroke = Brushes.Black,
+                //StrokeThickness = 2
+            };
+
+            Canvas.SetTop(recGoal, goalPos.Row * recGoal.Height);
+            Canvas.SetLeft(recGoal, goalPos.Col * recGoal.Width);
+            myCanvas.Children.Add(recGoal);
+
+        }
     }
 }

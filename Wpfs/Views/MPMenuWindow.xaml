@@ -9,31 +9,34 @@
     <Grid>
         <StackPanel Margin="0,0,0.6,-4.6" Background="WhiteSmoke">
             <TextBox x:Name="title" Height="58" TextWrapping="Wrap" Text="&#xD;&#xA;Multi Play Menu" HorizontalContentAlignment="Center"
-                 FontSize="20" FontWeight="Heavy"   Background="WhiteSmoke" BorderThickness="0" TextChanged="title_TextChanged"/>
+                 FontSize="20" FontWeight="Heavy"   Background="WhiteSmoke" BorderThickness="0"/>
             <StackPanel Orientation="Horizontal" Margin="0,0,-0.2,0" Height="40">
                 <Label Content="List of games:" Margin="3" FontSize="18" />
-                <ComboBox x:Name="cboSearchAlgo" Margin="5,0,0,0" HorizontalAlignment="Left"
-                    SelectedIndex="{Binding SearchAlgorithm}" IsEditable="False" Width="158"/>
+                <ComboBox x:Name="cboGames" Margin="5,10,0,3" HorizontalAlignment="Left"
+                    ItemsSource="{Binding VM_GamesList}" IsEditable="False" Width="158" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="JoinBtn" HorizontalAlignment="Center" Margin="130,6,6,6" Width="97" FontWeight="Bold" 
-                    FontSize="16" Content="Join Game" BorderThickness="1" Height="35" Click="btnOK_Click" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="1.383,0.257" />
+                    FontSize="16" Content="Join Game" BorderThickness="1" Height="35" Click="Join_Btn_Click" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="1.383,0.257" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Maze Name:" Margin="3" FontSize="20" />
-                <TextBox Text="{Binding MazeName, Mode=TwoWay}" FontSize="18" Margin="3" VerticalAlignment="Center" Height="30" Width="156"></TextBox>
+                <TextBox Text="{Binding VM_MazeName, Mode=TwoWay}" FontSize="18" Margin="3" VerticalAlignment="Center" Height="30" Width="156"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Maze Rows:" Margin="5" FontSize="20" />
-                <TextBox Text="{Binding MazeRows, Mode=TwoWay}" FontSize="18" Margin="5" VerticalAlignment="Center" Height="30" Width="156"></TextBox>
+                <TextBox Text="{Binding VM_MazeRows, Mode=TwoWay}" FontSize="18" Margin="5" VerticalAlignment="Center" Height="30" Width="156"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Maze Cols:" Margin="8" VerticalContentAlignment="Center" FontSize="20" />
-                <TextBox Text="{Binding MazeCols, Mode=TwoWay}" FontSize="18"  Margin="8" VerticalContentAlignment="Center" Height="30" Width="156"></TextBox>
+                <TextBox Text="{Binding VM_MazeCols, Mode=TwoWay}" FontSize="18"  Margin="8" VerticalContentAlignment="Center" Height="30" Width="156"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="btnOK" HorizontalAlignment="Center" Margin="130,6,6,6" Width="97" FontWeight="Bold" 
-                    FontSize="16" Content="Start Game" BorderThickness="1" Height="35" Click="btnOK_Click" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="1.383,0.257" />
+                    FontSize="16" Content="Start Game" BorderThickness="1" Height="35" Click="Start_Btn_Click" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="1.383,0.257" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label x:Name="waitLabel" Content="Wait for another player to join..." Margin="20,0,0,0" VerticalContentAlignment="Center" FontSize="18" />
             </StackPanel>
         </StackPanel>
     </Grid>

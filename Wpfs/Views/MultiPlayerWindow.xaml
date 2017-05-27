@@ -1,0 +1,34 @@
+﻿<Window x:Class="Wpfs.Views.MultiPlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpfs.Views"
+        xmlns:Controls="clr-namespace:Wpfs.Views"
+        mc:Ignorable="d"
+        Title="{Binding VM_MazeName}" KeyDown="OnKeyDownHandler" Height="550" Width="1000">
+    <StackPanel>
+        <StackPanel x:Name="buttons"  Height="60" Orientation="Horizontal">
+            <Button x:Name="MainBtn" Content="Back to main menu" FontSize="14" HorizontalAlignment="Center" Width="130" Margin="430,24,0,6" Click="MainBtn_Click" />
+        </StackPanel>
+
+        <StackPanel x:Name="labels"  Height="30" Orientation="Horizontal">
+            <Label Content="My board" FontSize="16" Margin="50,0,0,0" Foreground="Blue"/>
+            <Label Content="Other player's board" FontSize="16" Margin="420,0,0,0" Foreground="Green"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Controls:MazeBoard x:Name="myCanvasPlayer1" Height="400" Width="400" Loaded="MyCanvasMulti_Loaded"
+                            BorderBrush="Black" BorderThickness="1" Margin="50,0,0,0"
+                            MazeName="{Binding VM_MazeName}" MazeRows="{Binding VM_MazeRows}" MazeCols="{Binding VM_MazeCols}" 
+                            InitialPos="{Binding VM_InitialPos}" GoalPos="{Binding VM_GoalPos}" CurPos="{Binding VM_CurPos}"/>
+                                 
+        
+            <Controls:MazeBoard x:Name="myCanvasPlayer2" Height="400" Width="400" Loaded="MyCanvasMulti_Loaded"
+                            BorderBrush="Black" BorderThickness="1" Margin="100,0,0,0"
+                            MazeName="{Binding VM_MazeName}" MazeRows="{Binding VM_MazeRows}" MazeCols="{Binding VM_MazeCols}" 
+                            InitialPos="{Binding VM_InitialPos}" GoalPos="{Binding VM_GoalPos}" CurPos="{Binding VM_CurPos}"/>
+        </StackPanel>
+
+    </StackPanel>
+</Window>

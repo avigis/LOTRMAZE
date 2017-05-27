@@ -39,11 +39,15 @@ namespace Wpfs
         private void Click_SP(object sender, RoutedEventArgs e)
         {
             SPMenuWindow spm = new SPMenuWindow();
-            //spm.
             spm.Show();
             this.Hide();
         }
 
-        
+        private void Click_MP(object sender, RoutedEventArgs e)
+        {
+            MPMenuWindow mpm = new MPMenuWindow();
+            mpm.Show();
+            this.Hide();
+        }
     }
 }

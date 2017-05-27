@@ -67,8 +67,10 @@
     <Compile Include="ITelnetClient.cs" />
     <Compile Include="Models\ApplicationSettingsModel.cs" />
     <Compile Include="Models\ISettingsModel.cs" />
+    <Compile Include="Models\MultiPlayerModel.cs" />
     <Compile Include="Models\SinglePlayerModel.cs" />
     <Compile Include="MyTelnetClient.cs" />
+    <Compile Include="ViewModels\MultiPlayerViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SinglePlayerViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
@@ -80,6 +82,9 @@
     </Compile>
     <Compile Include="Views\MPMenuWindow.xaml.cs">
       <DependentUpon>MPMenuWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MultiPlayerWindow.xaml.cs">
+      <DependentUpon>MultiPlayerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
@@ -111,6 +116,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MPMenuWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MultiPlayerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
