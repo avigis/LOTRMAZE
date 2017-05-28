@@ -20,7 +20,7 @@ namespace Wpfs.ViewModels
         private int rows;
         private int cols;
         private Position curPos;
-        
+        //Contructor
         public SinglePlayerViewModel(SinglePlayerModel model)
         {
             this.model = model;
@@ -30,12 +30,12 @@ namespace Wpfs.ViewModels
                     NotifyPropertyChanged("VM_"+e.PropertyName);
                 };
         }
-
+        //SP Model Property
         public SinglePlayerModel Model {
             get { return model; }
             set { }
         }
-
+        //VM MazeName Property
         public string VM_MazeName
         {
             get { return this.model.MazeName; }
@@ -45,7 +45,7 @@ namespace Wpfs.ViewModels
                 NotifyPropertyChanged("Maze");
             }
         }
-
+        //VM MazeRows Property
         public int VM_MazeRows
         {
             get { return this.model.MazeRows; }
@@ -55,7 +55,7 @@ namespace Wpfs.ViewModels
                 NotifyPropertyChanged("MazeRows");
             }
         }
-
+        //VM MazeCols Property
         public int VM_MazeCols
         {
             get { return this.model.MazeCols; }
@@ -65,7 +65,7 @@ namespace Wpfs.ViewModels
                 NotifyPropertyChanged("MazeCols");
             }
         }
-
+        //VM SearchAlgorithm Property
         public int VM_SearchAlgorithm
         {
             get { return this.model.SearchAlgorithm; }
@@ -75,12 +75,12 @@ namespace Wpfs.ViewModels
                 NotifyPropertyChanged("SearchAlgorithm");
             }
         }
-
+        //JSON Maze Name Property
         public string Maze {
             get { return this.model.Maze.ToJSON(); }
             set { }
         }
-
+        //VM Initial Position Property
         public Position VM_InitialPos
         {
             get { return this.model.InitialPos; }
@@ -90,7 +90,7 @@ namespace Wpfs.ViewModels
                 NotifyPropertyChanged("InitialPos");
             }
         }
-
+        //VM Goal Position Property
         public Position VM_GoalPos
         {
             get { return this.model.GoalPos; }
@@ -100,7 +100,7 @@ namespace Wpfs.ViewModels
                 NotifyPropertyChanged("GoalPos");
             }
         }
-
+        //VM Current Position Property
         public Position VM_CurPos
         {
             get { return this.model.CurPos; }
@@ -110,7 +110,7 @@ namespace Wpfs.ViewModels
                 NotifyPropertyChanged("CurPos");
             }
         }
-
+        
         public Maze VM_Maze
         {
             get { return this.model.Maze; }
