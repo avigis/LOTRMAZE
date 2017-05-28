@@ -26,58 +26,42 @@ namespace Wpfs.Views
     {
         private MultiPlayerViewModel vm;
 
-        private Thread t;
-        CancellationTokenSource cts;
-        CancellationToken token;
-        private Task task;
-        private bool gameEnded;
-
         public MultiPlayerWindow(MultiPlayerViewModel vm)
         {
-            ////////////////////////////////////////////////////////////////////////////////
             InitializeComponent();
             this.vm = vm;
             this.DataContext = vm;
-            gameEnded = false;
-
-            //t = new Thread(() => RepeatDraw(this));
-            //t.SetApartmentState(ApartmentState.STA);
-
-            //t.Start();
-            //cts = new CancellationTokenSource();
-            //token = cts.Token;
-            //task = Task.Factory.StartNew(RepeatDraw, token);
-            //task = new Task(RepeatDraw);
-            //task.Start();
-            //BackToMainAfterGameEnded();
             vm.PropertyChanged += MyPropertyChangedEventHandler;
-            //vm.NotifyPropertyChanged();
         }
-        /// <summary>
-        /// /////////////////////////////////////////////////////////////////////////////
-        /// </summary>
 
         private void MyPropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
                 myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
-            myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
+                myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
 
-            if (vm.VM_CurPos1.Equals(vm.VM_GoalPos) || vm.VM_CurPos2.Equals(vm.VM_GoalPos))
-            {
-                if (vm.VM_CurPos1.Equals(vm.VM_GoalPos))
+                if (vm.VM_CurPos1.Equals(vm.VM_GoalPos) || vm.VM_CurPos2.Equals(vm.VM_GoalPos))
                 {
-                    MessageBoxResult result = MessageBox.Show("You Won! (:", "Reached destination");
-                }
-                else if (vm.VM_CurPos2.Equals(vm.VM_GoalPos))
-                {
-                    MessageBoxResult result = MessageBox.Show("You Lost :'(", "Reached destination");
-                }
+                    if (vm.VM_CurPos1.Equals(vm.VM_GoalPos))
+                    {
+                        MessageBoxResult result = MessageBox.Show("You Won! (:", "Reached destination");
+                    }
+                    else if (vm.VM_CurPos2.Equals(vm.VM_GoalPos))
+                    {
+                        MessageBoxResult result = MessageBox.Show("You Lost :'(", "Reached destination");
+                    }
 
-                MainWindow mainWin = new MainWindow();
-                mainWin.Show();
-                this.Hide();
-            }
+                    MainWindow mainWin = new MainWindow();
+                    mainWin.Show();
+                    this.Hide();
+                }
+                if (vm.VM_SecondClientClosed == true)
+                {
+                    MessageBoxResult result = MessageBox.Show("The other client has left the game.", "End of game");
+                    MainWindow mainWin = new MainWindow();
+                    mainWin.Show();
+                    this.Hide();
+                }
             }
 
                 ));
@@ -92,6 +76,8 @@ namespace Wpfs.Views
                     MainWindow mainWin = new MainWindow();
                     mainWin.Show();
                     this.Hide();
+                    //vm.Model.SecondClientClosed = true;
+                    vm.Model.Client1.Write("close " + vm.VM_MazeName);
                     break;
 
                 case MessageBoxResult.No:
@@ -128,38 +114,32 @@ namespace Wpfs.Views
                 vm.Model.MoveRight();
             }
 
-            //myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
-            //myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
         }
 
-        public void RepeatDraw(MultiPlayerWindow parentWin)
-        {
-            while (!(vm.VM_CurPos1.Equals(vm.VM_GoalPos)) && !(vm.VM_CurPos2.Equals(vm.VM_GoalPos)))
-            {
-                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
+        //public void RepeatDraw(MultiPlayerWindow parentWin)
+        //{
+        //    while (!(vm.VM_CurPos1.Equals(vm.VM_GoalPos)) && !(vm.VM_CurPos2.Equals(vm.VM_GoalPos)))
+        //    {
+        //        Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
 
-                    myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
-                    myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
-                    Thread.Sleep(50);
-                }
+        //            myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
+        //            myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
+        //            Thread.Sleep(50);
+        //        }
 
-                ));
+        //        ));
 
-            }
-            if (vm.VM_CurPos1.Equals(vm.VM_GoalPos)) {
-                MessageBoxResult result = MessageBox.Show("You Won! (:", "Reached destination");
-            } else if (vm.VM_CurPos2.Equals(vm.VM_GoalPos))
-            {
-                MessageBoxResult result = MessageBox.Show("You Lost :'(", "Reached destination");
-            }
+        //    }
+        //    if (vm.VM_CurPos1.Equals(vm.VM_GoalPos)) {
+        //        MessageBoxResult result = MessageBox.Show("You Won! (:", "Reached destination");
+        //    } else if (vm.VM_CurPos2.Equals(vm.VM_GoalPos))
+        //    {
+        //        MessageBoxResult result = MessageBox.Show("You Lost :'(", "Reached destination");
+        //    }
 
-            //task.Dispose();
-            //cts.Dispose();
-            //t.Abort();
-            gameEnded = true;
-            MainWindow mainWin = new MainWindow();
-            mainWin.Show();
-            parentWin.Hide();
-        }
+        //    MainWindow mainWin = new MainWindow();
+        //    mainWin.Show();
+        //    parentWin.Hide();
+        //}
     }
 }

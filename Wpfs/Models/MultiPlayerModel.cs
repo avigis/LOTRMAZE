@@ -160,6 +160,17 @@ namespace Wpfs.Models
             }
         }
 
+        private bool secondClientClosed;
+        public bool SecondClientClosed
+        {
+            get { return this.secondClientClosed; }
+            set
+            {
+                secondClientClosed = value;
+                NotifyPropertyChanged("SecondClientClosed");
+            }
+        }
+
         private ObservableCollection<string> gamesList;  
         public ObservableCollection<string> GamesList
         {
@@ -229,6 +240,17 @@ namespace Wpfs.Models
             {
                 this.CurPos2 = new Position(curPos2.Row, curPos2.Col + 1);
             }
+            else {
+                //char[] separators = { ',', '[', ']', '"', '\r', '\n', ' ', };
+                //foreach (char c in separators)
+                //{
+                //    msg = msg.Replace(c, '\0');
+                //}
+                    if (msg.Equals("{}\r\n"))
+                    {
+                        this.SecondClientClosed = true;
+                    }
+        }
 
             //vm.OtherPlayerMoved();
         }
@@ -248,7 +270,8 @@ namespace Wpfs.Models
             MazeName = maze.Name;
             MazeCols = maze.Cols;
             MazeRows = maze.Rows;
-            //new Task(ListenToServer).Start();
+            secondClientClosed = false;
+
             var thread = new Thread(new ThreadStart(ListenToServer));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
@@ -270,8 +293,9 @@ namespace Wpfs.Models
             MazeName = maze.Name;
             MazeCols = maze.Cols;
             MazeRows = maze.Rows;
+            secondClientClosed = false;
 
-            //new Task(ListenToServer).Start();
+
             var thread = new Thread(new ThreadStart(ListenToServer));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();

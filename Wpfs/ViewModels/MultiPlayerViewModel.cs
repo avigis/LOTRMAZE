@@ -141,5 +141,13 @@ namespace Wpfs.ViewModels
             }
         }
 
+        public bool VM_SecondClientClosed {
+            get { return this.model.SecondClientClosed; }
+            set {
+                this.model.SecondClientClosed = value;
+                NotifyPropertyChanged("SecondClientClosed");
+            }
+        }
+
     }
 }
