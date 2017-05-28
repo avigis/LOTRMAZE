@@ -59,8 +59,28 @@ namespace Wpfs.Views
 
         private void MyPropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
         {
-            myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
+                myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
             myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
+
+            if (vm.VM_CurPos1.Equals(vm.VM_GoalPos) || vm.VM_CurPos2.Equals(vm.VM_GoalPos))
+            {
+                if (vm.VM_CurPos1.Equals(vm.VM_GoalPos))
+                {
+                    MessageBoxResult result = MessageBox.Show("You Won! (:", "Reached destination");
+                }
+                else if (vm.VM_CurPos2.Equals(vm.VM_GoalPos))
+                {
+                    MessageBoxResult result = MessageBox.Show("You Lost :'(", "Reached destination");
+                }
+
+                MainWindow mainWin = new MainWindow();
+                mainWin.Show();
+                this.Hide();
+            }
+            }
+
+                ));
         }
 
         private void MainBtn_Click(object sender, RoutedEventArgs e)

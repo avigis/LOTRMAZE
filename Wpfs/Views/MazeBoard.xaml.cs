@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Wpfs.Views
 {
@@ -166,7 +167,8 @@ namespace Wpfs.Views
 
         public void DrawMulti(string recsStr, int rows, int cols, Position curPos1, Position goalPos, int figure)
         {
-            int recindex = 0;
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
+                int recindex = 0;
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -249,6 +251,9 @@ namespace Wpfs.Views
             Canvas.SetTop(recGoal, goalPos.Row * recGoal.Height);
             Canvas.SetLeft(recGoal, goalPos.Col * recGoal.Width);
             myCanvas.Children.Add(recGoal);
+            }
+
+                ));
 
         }
     }

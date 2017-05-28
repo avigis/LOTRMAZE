@@ -74,7 +74,6 @@ namespace Wpfs.Views
         {
             waitLabel.Visibility = Visibility.Visible;
             vm.Model.Start();
-            //////////////////////////////////////////////////
             MultiPlayerWindow mp = new MultiPlayerWindow(vm);
             mp.Show();
             this.Hide();
