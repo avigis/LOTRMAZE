@@ -6,10 +6,13 @@
         xmlns:local="clr-namespace:Wpfs"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="900" Background="Beige" >
-    <Grid Margin="0,0,-6.4,0" Height="420" VerticalAlignment="Top">
+    <Grid Margin="0,70,-6.4,0" Height="420" VerticalAlignment="Top">
         <!--<Grid.Background>
             <ImageBrush ImageSource="pack://application:,,,/background.jpg" TileMode="FlipXY" />
         </Grid.Background>-->
+        <Grid.Resources>
+            <ImageBrush x:Key="AddButtonImageBrush" ImageSource="pack://application:,,,/Resources/button.jpg" Stretch="UniformToFill"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <RowDefinition Height="80"/>
@@ -19,10 +22,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
-        <Image Source="pack://application:,,,/logo.png" RenderTransformOrigin="1.767,0.52" Margin="330,5,-356.2,75.6" Grid.RowSpan="2"/>
-        <Button Margin="336,10.2,-330.2,9.6" Content="Single player" Padding="4" Grid.Row="1" FontSize="24" Click="Click_SP"/>
-        <Button Margin="336,10.4,-330.2,10.4" Content="Multi player" Padding="4" Grid.Row="2" FontSize="24" Click="Click_MP"/>
-        <Button Margin="336,9.6,-330.2,10.2" Content="Settings" Padding="4" Click="Click_Settings" Grid.Row="3" FontSize="24"/>
+        <!--<Image Source="pack://application:,,,/Resources/Background3.png" RenderTransformOrigin="1.767,0.52" Margin="330,5,-356.2,75.6" Grid.RowSpan="2" Stretch="None"/>-->
+        <Button Background="{StaticResource AddButtonImageBrush}" Foreground="White" Margin="336,10.2,-330.2,9.6" Content="Single player" Padding="4" Grid.Row="1" FontSize="24" Click="Click_SP"/>
+        <Button Background="{StaticResource AddButtonImageBrush}" Foreground="White" Margin="336,10.4,-330.2,10.4" Content="Multi player" Padding="4" Grid.Row="2" FontSize="24" Click="Click_MP"/>
+        <Button Background="{StaticResource AddButtonImageBrush}" Foreground="White" Margin="336,9.6,-330.2,10.2" Content="Settings" Padding="4" Click="Click_Settings" Grid.Row="3" FontSize="24"/>
 
     </Grid>
 </Window>

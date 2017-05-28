@@ -168,5 +168,11 @@
       <Name>ServerMaze</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\background3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\button.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

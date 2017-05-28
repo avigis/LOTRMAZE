@@ -26,6 +26,7 @@ namespace Wpfs
         public MainWindow()
         {
             InitializeComponent();
+            this.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/Resources/Background3.png")));
         }
 
         private void Click_Settings(object sender, RoutedEventArgs e)

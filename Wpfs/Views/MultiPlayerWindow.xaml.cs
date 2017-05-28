@@ -1,8 +1,10 @@
 ﻿using MazeLib;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Wpfs.ViewModels;
 
 namespace Wpfs.Views
@@ -22,11 +25,42 @@ namespace Wpfs.Views
     public partial class MultiPlayerWindow : Window
     {
         private MultiPlayerViewModel vm;
+
+        private Thread t;
+        CancellationTokenSource cts;
+        CancellationToken token;
+        private Task task;
+        private bool gameEnded;
+
         public MultiPlayerWindow(MultiPlayerViewModel vm)
         {
+            ////////////////////////////////////////////////////////////////////////////////
             InitializeComponent();
             this.vm = vm;
             this.DataContext = vm;
+            gameEnded = false;
+
+            //t = new Thread(() => RepeatDraw(this));
+            //t.SetApartmentState(ApartmentState.STA);
+
+            //t.Start();
+            //cts = new CancellationTokenSource();
+            //token = cts.Token;
+            //task = Task.Factory.StartNew(RepeatDraw, token);
+            //task = new Task(RepeatDraw);
+            //task.Start();
+            //BackToMainAfterGameEnded();
+            vm.PropertyChanged += MyPropertyChangedEventHandler;
+            //vm.NotifyPropertyChanged();
+        }
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+
+        private void MyPropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
+        {
+            myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
+            myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
         }
 
         private void MainBtn_Click(object sender, RoutedEventArgs e)
@@ -51,36 +85,6 @@ namespace Wpfs.Views
             myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
         }
 
-        //private void OnKeyDownHandler(object sender, KeyEventArgs e)
-        //{
-        //    int curRow = vm.VM_CurPos1.Row;
-        //    int curCol = vm.VM_CurPos1.Col;
-
-        //    if (e.Key == Key.Up && curRow > 0 && vm.VM_Maze[curRow - 1, curCol] == CellType.Free)
-        //    {
-        //        vm.VM_CurPos1 = new Position(vm.VM_CurPos1.Row - 1, vm.VM_CurPos1.Col);
-        //    }
-        //    else if (e.Key == Key.Down && curRow < vm.VM_MazeRows - 1 && vm.VM_Maze[curRow + 1, curCol] == CellType.Free)
-        //    {
-        //        vm.VM_CurPos1 = new Position(vm.VM_CurPos1.Row + 1, vm.VM_CurPos1.Col);
-        //    }
-        //    else if (e.Key == Key.Left && curCol > 0 && vm.VM_Maze[curRow, curCol - 1] == CellType.Free)
-        //    {
-        //        vm.VM_CurPos1 = new Position(vm.VM_CurPos1.Row, vm.VM_CurPos1.Col - 1);
-        //    }
-        //    else if (e.Key == Key.Right && curCol < vm.VM_MazeCols - 1 && vm.VM_Maze[curRow, curCol + 1] == CellType.Free)
-        //    {
-        //        vm.VM_CurPos1 = new Position(vm.VM_CurPos1.Row, vm.VM_CurPos1.Col + 1);
-        //    }
-
-        //    myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
-        //    myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
-        //    //if (this.vm.Model.ReachedDestination())
-        //    //{
-        //    //    MessageBoxResult result = MessageBox.Show("You Won!", "Reached destination");
-        //    //}
-
-        //}
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
@@ -104,13 +108,38 @@ namespace Wpfs.Views
                 vm.Model.MoveRight();
             }
 
-            myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
-            myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
-            //if (this.vm.Model.ReachedDestination())
-            //{
-            //    MessageBoxResult result = MessageBox.Show("You Won!", "Reached destination");
-            //}
+            //myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
+            //myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
+        }
 
+        public void RepeatDraw(MultiPlayerWindow parentWin)
+        {
+            while (!(vm.VM_CurPos1.Equals(vm.VM_GoalPos)) && !(vm.VM_CurPos2.Equals(vm.VM_GoalPos)))
+            {
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
+
+                    myCanvasPlayer1.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos1, vm.VM_GoalPos, 1);
+                    myCanvasPlayer2.DrawMulti(vm.VM_Maze.ToString(), vm.VM_MazeRows, vm.VM_MazeCols, vm.VM_CurPos2, vm.VM_GoalPos, 2);
+                    Thread.Sleep(50);
+                }
+
+                ));
+
+            }
+            if (vm.VM_CurPos1.Equals(vm.VM_GoalPos)) {
+                MessageBoxResult result = MessageBox.Show("You Won! (:", "Reached destination");
+            } else if (vm.VM_CurPos2.Equals(vm.VM_GoalPos))
+            {
+                MessageBoxResult result = MessageBox.Show("You Lost :'(", "Reached destination");
+            }
+
+            //task.Dispose();
+            //cts.Dispose();
+            //t.Abort();
+            gameEnded = true;
+            MainWindow mainWin = new MainWindow();
+            mainWin.Show();
+            parentWin.Hide();
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Wpfs.Models
 {
@@ -172,25 +173,25 @@ namespace Wpfs.Models
 
         public void MoveLeft()
         {
-            this.curPos1 = new Position(curPos1.Row, curPos1.Col - 1);
+            this.CurPos1 = new Position(curPos1.Row, curPos1.Col - 1);
             client1.Write("play left");
         }
 
         public void MoveRight()
         {
-            this.curPos1 = new Position(curPos1.Row, curPos1.Col + 1);
+            this.CurPos1 = new Position(curPos1.Row, curPos1.Col + 1);
             client1.Write("play right");
         }
 
         public void MoveUp()
         {
-            this.curPos1 = new Position(curPos1.Row - 1, curPos1.Col);
+            this.CurPos1 = new Position(curPos1.Row - 1, curPos1.Col);
             client1.Write("play up");
         }
 
         public void MoveDown()
         {
-            this.curPos1 = new Position(curPos1.Row + 1, curPos1.Col);
+            this.CurPos1 = new Position(curPos1.Row + 1, curPos1.Col);
             client1.Write("play down");
         }
 
@@ -214,19 +215,19 @@ namespace Wpfs.Models
         {
             if (msg.Contains("up"))
             {
-                this.curPos2 = new Position(curPos2.Row - 1, curPos2.Col);
+                this.CurPos2 = new Position(curPos2.Row - 1, curPos2.Col);
             }
             else if (msg.Contains("down"))
             {
-                this.curPos2 = new Position(curPos2.Row + 1, curPos2.Col);
+                this.CurPos2 = new Position(curPos2.Row + 1, curPos2.Col);
             }
             else if (msg.Contains("left"))
             {
-                this.curPos2 = new Position(curPos2.Row, curPos2.Col - 1);
+                this.CurPos2 = new Position(curPos2.Row, curPos2.Col - 1);
             }
             else if (msg.Contains("right"))
             {
-                this.curPos2 = new Position(curPos2.Row, curPos2.Col + 1);
+                this.CurPos2 = new Position(curPos2.Row, curPos2.Col + 1);
             }
 
             //vm.OtherPlayerMoved();
@@ -234,12 +235,8 @@ namespace Wpfs.Models
 
         public void Start()
         {
-            //client1.Connect(Properties.Settings.Default.ServerIP, Properties.Settings.Default.ServerPort);
             string startCommand = "start " + this.MazeName + " " + this.MazeRows + " " + this.MazeCols;
             this.client1.Write(startCommand);
-            //this.gamesList.Add(this.mazeName);
-
-
 
             string mazeString = client1.Read();
             maze = Maze.FromJSON(mazeString);
@@ -251,9 +248,10 @@ namespace Wpfs.Models
             MazeName = maze.Name;
             MazeCols = maze.Cols;
             MazeRows = maze.Rows;
-
-            new Task(ListenToServer).Start();
-
+            //new Task(ListenToServer).Start();
+            var thread = new Thread(new ThreadStart(ListenToServer));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
 
         public void Join(string mymazeName)
@@ -273,7 +271,10 @@ namespace Wpfs.Models
             MazeCols = maze.Cols;
             MazeRows = maze.Rows;
 
-            new Task(ListenToServer).Start();
+            //new Task(ListenToServer).Start();
+            var thread = new Thread(new ThreadStart(ListenToServer));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
 
         public void GetGameList(MyTelnetClient client)

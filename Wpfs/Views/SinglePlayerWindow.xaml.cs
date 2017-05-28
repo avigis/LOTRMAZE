@@ -73,6 +73,9 @@ namespace Wpfs.Views
             if (this.vm.Model.ReachedDestination())
             {
                 MessageBoxResult result = MessageBox.Show("You Won!", "Reached destination");
+                MainWindow mainWin = new MainWindow();
+                mainWin.Show();
+                this.Hide();
             }
 
         }
@@ -125,6 +128,11 @@ namespace Wpfs.Views
                 ));
 
             }
+            MessageBoxResult result = MessageBox.Show("You Won!", "Reached destination");
+            MainWindow mainWin = new MainWindow();
+            mainWin.Show();
+            this.Hide();
+
         }
 
         public void MoveOneStep(char direction)

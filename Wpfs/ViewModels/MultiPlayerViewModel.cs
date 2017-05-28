@@ -24,6 +24,8 @@ namespace Wpfs.ViewModels
                 };
         }
 
+
+
         public MultiPlayerModel Model
         {
             get { return model; }

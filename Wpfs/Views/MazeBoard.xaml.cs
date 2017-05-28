@@ -139,7 +139,7 @@ namespace Wpfs.Views
             {
                 Height = (this.ActualHeight / rows),
                 Width = (this.ActualWidth / cols),
-                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\homer.jpg", UriKind.Relative))),
+                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\gollum.png", UriKind.Relative))),
                 //Stroke = Brushes.Black,
                 //StrokeThickness = 2
             };
@@ -152,7 +152,7 @@ namespace Wpfs.Views
             {
                 Height = (this.ActualHeight / rows),
                 Width = (this.ActualWidth / cols),
-                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\donut.jpg", UriKind.Relative))),
+                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\ring.png", UriKind.Relative))),
                 //Stroke = Brushes.Black,
                 //StrokeThickness = 2
             };
@@ -209,7 +209,7 @@ namespace Wpfs.Views
                 {
                     Height = (this.ActualHeight / rows),
                     Width = (this.ActualWidth / cols),
-                    Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\homer.jpg", UriKind.Relative))),
+                    Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\gollum.png", UriKind.Relative))),
                     //Stroke = Brushes.Black,
                     //StrokeThickness = 2
                 };
@@ -226,7 +226,7 @@ namespace Wpfs.Views
                 {
                     Height = (this.ActualHeight / rows),
                     Width = (this.ActualWidth / cols),
-                    Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\bart.png", UriKind.Relative))),
+                    Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\frodo.jpg", UriKind.Relative))),
                     //Stroke = Brushes.Black,
                     //StrokeThickness = 2
                 };
@@ -241,7 +241,7 @@ namespace Wpfs.Views
             {
                 Height = (this.ActualHeight / rows),
                 Width = (this.ActualWidth / cols),
-                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\donut.jpg", UriKind.Relative))),
+                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\ring.png", UriKind.Relative))),
                 //Stroke = Brushes.Black,
                 //StrokeThickness = 2
             };
