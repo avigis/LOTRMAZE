@@ -13,7 +13,7 @@ namespace Wpfs.ViewModels
     class SettingsViewModel : ViewModel
     {
         private ISettingsModel model;
-
+        //Constructor
         public SettingsViewModel(ISettingsModel model)
         {
             this.model = model;
@@ -23,7 +23,7 @@ namespace Wpfs.ViewModels
                     NotifyPropertyChanged(e.PropertyName);
                 };
         }
-
+        //ServerIP Property
         public string ServerIP
         {
             get { return model.ServerIP; }
@@ -36,7 +36,7 @@ namespace Wpfs.ViewModels
 
         //public static readonly DependencyProperty ServerIPProperty =
         //    DependencyProperty.Register("ServerIP", typeof(int), typeof(SettingsWindow), new PropertyMetadata(0));
-
+        //ServerPort Property
         public int ServerPort
         {
             get { return model.ServerPort; }
@@ -51,7 +51,7 @@ namespace Wpfs.ViewModels
         //public static readonly DependencyProperty ServerPortProperty =
         //    DependencyProperty.Register("ServerPort", typeof(int), typeof(SettingsWindow), new PropertyMetadata(0));
 
-
+        //MazeRows Property
         public int MazeRows
         {
             get { return model.MazeRows; }
@@ -65,8 +65,8 @@ namespace Wpfs.ViewModels
         // Using a DependencyProperty as the backing store for MazeRows.  This enables animation, styling, binding, etc...
         //public static readonly DependencyProperty MazeRowsProperty =
         //    DependencyProperty.Register("MazeRows", typeof(int), typeof(SettingsWindow), new PropertyMetadata(0));
-
-
+        
+        //MazeCols Property
         public int MazeCols
         {
             get { return model.MazeCols; }
@@ -82,7 +82,7 @@ namespace Wpfs.ViewModels
         //    DependencyProperty.Register("MazeCols", typeof(int), typeof(SettingsWindow), new PropertyMetadata(0));
 
 
-
+        //SearchAlgorithm Property
         public int SearchAlgorithm
         {
             get { return model.SearchAlgorithm; }
@@ -98,7 +98,7 @@ namespace Wpfs.ViewModels
         //    DependencyProperty.Register("SearchAlgorithm", typeof(int), typeof(SettingsWindow), new PropertyMetadata(0));
 
 
-
+        //SaveSettings Property
         public void SaveSettings()
         {
             model.SaveSettings();
