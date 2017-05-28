@@ -1,6 +1,6 @@
-﻿using MazeLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,245 +11,73 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpfs.Models;
+using Wpfs.ViewModels;
 
 namespace Wpfs.Views
 {
     /// <summary>
-    /// Interaction logic for MazeBoard.xaml
+    /// Interaction logic for MPMenuWindow.xaml
     /// </summary>
-    public partial class MazeBoard : UserControl
+    public partial class MPMenuWindow : Window
     {
-        public MazeBoard()
+        private MultiPlayerViewModel vm;
+        //Constructor
+        public MPMenuWindow()
         {
             InitializeComponent();
+            this.mazeName = "Maze Name";
+            this.mazeRows = Properties.Settings.Default.MazeRows;
+            this.mazeCols = Properties.Settings.Default.MazeCols;
+            waitLabel.Visibility = Visibility.Hidden;
+            vm = new MultiPlayerViewModel(new MultiPlayerModel());
+            this.DataContext = vm;
         }
-
+        
+        private string mazeName;
         public string MazeName
         {
-            get { return (string)GetValue(MazeNameProperty); }
-            set { SetValue(MazeNameProperty, value); }
+            get { return vm.VM_MazeName; }
+            set { mazeName = value; }
         }
 
-        // Using a DependencyProperty as the backing store for MazeName.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MazeNameProperty =
-            DependencyProperty.Register("MazeName", typeof(string), typeof(MazeBoard));
-
-
+        private int mazeRows;
         public int MazeRows
         {
-            get { return (int)GetValue(MazeRowsProperty); }
-            set { SetValue(MazeRowsProperty, value); }
+            get { return vm.VM_MazeRows; }
+            set { mazeRows = value; }
         }
 
-        // Using a DependencyProperty as the backing store for MazeRows.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MazeRowsProperty =
-            DependencyProperty.Register("MazeRows", typeof(int), typeof(MazeBoard));
-
-
-
+        private int mazeCols;
         public int MazeCols
         {
-            get { return (int)GetValue(MazeColsProperty); }
-            set { SetValue(MazeColsProperty, value); }
+            get { return vm.VM_MazeCols; }
+            set { mazeCols = value; }
         }
 
-        // Using a DependencyProperty as the backing store for MazeCols.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MazeColsProperty =
-            DependencyProperty.Register("MazeCols", typeof(int), typeof(MazeBoard));
-
-
-        public string InitialPos
-        {
-            get { return (string)GetValue(InitialPosProperty); }
-            set { SetValue(InitialPosProperty, value); }
+        private ObservableCollection<string> gamesList;
+        public ObservableCollection<string> GamesList {
+            get { return vm.VM_GamesList; }
+            set { gamesList = value; }
         }
 
-        // Using a DependencyProperty as the backing store for InitialPos.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty InitialPosProperty =
-            DependencyProperty.Register("InitialPos", typeof(string), typeof(MazeBoard));
-
-
-        public string GoalPos
+        private void Join_Btn_Click(object sender, RoutedEventArgs e)
         {
-            get { return (string)GetValue(GoalPosProperty); }
-            set { SetValue(GoalPosProperty, value); }
+            vm.Model.Join(cboGames.SelectedValue.ToString());
+            MultiPlayerWindow mp = new MultiPlayerWindow(vm);
+            mp.Show();
+            this.Hide();
         }
 
-        // Using a DependencyProperty as the backing store for GoalPos.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty GoalPosProperty =
-            DependencyProperty.Register("GoalPos", typeof(string), typeof(MazeBoard));
-
-
-
-        public string CurPos
+        private void Start_Btn_Click(object sender, RoutedEventArgs e)
         {
-            get { return (string)GetValue(CurPosProperty); }
-            set { SetValue(CurPosProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CurPos.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CurPosProperty =
-            DependencyProperty.Register("CurPos", typeof(string), typeof(MazeBoard));
-
-
-
-
-
-        public void Draw(string recsStr, int rows, int cols, Position curPos, Position goalPos)
-        {
-            int recindex= 0;
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    Rectangle rec = new Rectangle()
-                    {
-                        Height = (this.ActualHeight / rows),/* 50,*/
-                        Width = (this.ActualWidth / cols),/* 50,*/
-                        Fill = Brushes.White,
-                        //Stroke = Brushes.Black,
-                        //StrokeThickness = 2
-                    };
-
-                    while (recsStr[recindex] != '1' && recsStr[recindex] != '0'
-                        && recsStr[recindex] != '#' && recsStr[recindex] != '*')
-                    {
-                        recindex++;
-                    }
-
-                    if (recsStr[recindex] == '1')
-                            rec.Fill = Brushes.Black;
-                        else if (recsStr[recindex] == '0')
-                            rec.Fill = Brushes.White;
-                        //else if (recsStr[recindex] == '*')
-                        //    rec.Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\homer.jpg", UriKind.Relative)));
-                        //else if (recsStr[recindex] == '#')
-                        //    rec.Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\donut.jpg", UriKind.Relative)));
-
-                        Canvas.SetTop(rec, i * rec.Height);
-                        Canvas.SetLeft(rec, j * rec.Width);
-                        myCanvas.Children.Add(rec);
-                        recindex++;
-                }
-            }
-
-            Rectangle recInit = new Rectangle()
-            {
-                Height = (this.ActualHeight / rows),
-                Width = (this.ActualWidth / cols),
-                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\gollum.png", UriKind.Relative))),
-                //Stroke = Brushes.Black,
-                //StrokeThickness = 2
-            };
-
-            Canvas.SetTop(recInit, curPos.Row * recInit.Height);
-            Canvas.SetLeft(recInit, curPos.Col * recInit.Width);
-            myCanvas.Children.Add(recInit);
-
-            Rectangle recGoal = new Rectangle()
-            {
-                Height = (this.ActualHeight / rows),
-                Width = (this.ActualWidth / cols),
-                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\ring.png", UriKind.Relative))),
-                //Stroke = Brushes.Black,
-                //StrokeThickness = 2
-            };
-
-            Canvas.SetTop(recGoal, goalPos.Row * recGoal.Height);
-            Canvas.SetLeft(recGoal, goalPos.Col * recGoal.Width);
-            myCanvas.Children.Add(recGoal);
-
-        }
-
-
-        public void DrawMulti(string recsStr, int rows, int cols, Position curPos1, Position goalPos, int figure)
-        {
-            int recindex = 0;
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    Rectangle rec = new Rectangle()
-                    {
-                        Height = (this.ActualHeight / rows),
-                        Width = (this.ActualWidth / cols),
-                        Fill = Brushes.White,
-                        //Stroke = Brushes.Black,
-                        //StrokeThickness = 2
-                    };
-
-                    while (recsStr[recindex] != '1' && recsStr[recindex] != '0'
-                        && recsStr[recindex] != '#' && recsStr[recindex] != '*')
-                    {
-                        recindex++;
-                    }
-
-                    if (recsStr[recindex] == '1')
-                        rec.Fill = Brushes.Black;
-                    else if (recsStr[recindex] == '0')
-                        rec.Fill = Brushes.White;
-                    //else if (recsStr[recindex] == '*')
-                    //    rec.Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\homer.jpg", UriKind.Relative)));
-                    //else if (recsStr[recindex] == '#')
-                    //    rec.Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\donut.jpg", UriKind.Relative)));
-
-                    Canvas.SetTop(rec, i * rec.Height);
-                    Canvas.SetLeft(rec, j * rec.Width);
-                    myCanvas.Children.Add(rec);
-                    recindex++;
-                }
-            }
-
-            if (figure == 1)
-            {
-
-                Rectangle recCurPos1 = new Rectangle()
-                {
-                    Height = (this.ActualHeight / rows),
-                    Width = (this.ActualWidth / cols),
-                    Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\gollum.png", UriKind.Relative))),
-                    //Stroke = Brushes.Black,
-                    //StrokeThickness = 2
-                };
-
-                Canvas.SetTop(recCurPos1, curPos1.Row * recCurPos1.Height);
-                Canvas.SetLeft(recCurPos1, curPos1.Col * recCurPos1.Width);
-                myCanvas.Children.Add(recCurPos1);
-            }
-            else if (figure == 2)
-            {
-
-
-                Rectangle recCurPos2 = new Rectangle()
-                {
-                    Height = (this.ActualHeight / rows),
-                    Width = (this.ActualWidth / cols),
-                    Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\frodo.jpg", UriKind.Relative))),
-                    //Stroke = Brushes.Black,
-                    //StrokeThickness = 2
-                };
-
-                Canvas.SetTop(recCurPos2, curPos1.Row * recCurPos2.Height);
-                Canvas.SetLeft(recCurPos2, curPos1.Col * recCurPos2.Width);
-                myCanvas.Children.Add(recCurPos2);
-            }
-
-
-            Rectangle recGoal = new Rectangle()
-            {
-                Height = (this.ActualHeight / rows),
-                Width = (this.ActualWidth / cols),
-                Fill = new ImageBrush(new BitmapImage(new Uri(@"resources\ring.png", UriKind.Relative))),
-                //Stroke = Brushes.Black,
-                //StrokeThickness = 2
-            };
-
-            Canvas.SetTop(recGoal, goalPos.Row * recGoal.Height);
-            Canvas.SetLeft(recGoal, goalPos.Col * recGoal.Width);
-            myCanvas.Children.Add(recGoal);
-
+            waitLabel.Visibility = Visibility.Visible;
+            vm.Model.Start();
+            //////////////////////////////////////////////////
+            MultiPlayerWindow mp = new MultiPlayerWindow(vm);
+            mp.Show();
+            this.Hide();
         }
     }
 }
